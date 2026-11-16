@@ -1,0 +1,8 @@
+SALE-1001 | 2026-11-15 09:20:15 | customer | P001 | Fresh Whole Milk (1L) | 2 | 5.00
+SALE-1002 | 2026-11-15 11:05:40 | customer | P002 | Classic Salted Potato Chips | 3 | 5.55
+SALE-1003 | 2026-11-15 19:17:57 | orgunk | P007 | Extra Virgin Olive Oil (500ml) | 1 | 11.50
+SALE-1004 | 2026-11-15 19:18:14 | customer | P003 | Artisan Sourdough Bread | 2 | 8.40
+SALE-1005 | 2026-11-15 19:18:50 | admin | P007 | Extra Virgin Olive Oil (500ml) | 9 | 103.50
+SALE-1006 | 2026-11-15 19:18:58 | admin | P002 | Classic Salted Potato Chips | 35 | 64.75
+SALE-1007 | 2026-11-15 19:19:06 | admin | P001 | Fresh Whole Milk (1L) | 24 | 60.00
+SALE-1008 | 2026-11-15 19:19:59 | admin | P004 | Free-Range Brown Eggs (12pk) | 18 | 91.80

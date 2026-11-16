@@ -1,0 +1,10 @@
+P001 | Fresh Whole Milk (1L) | Dairy | 2.50 | 0 | https://images.unsplash.com/photo-1563636619-e9143da7973b?auto=format&fit=crop&w=600&q=80
+P002 | Classic Salted Potato Chips | Snacks | 1.85 | 0 | https://images.unsplash.com/photo-1566478989037-eec170784d0b?auto=format&fit=crop&w=600&q=80
+P003 | Artisan Sourdough Bread | Bakery | 4.20 | 0 | https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=600&q=80
+P004 | Free-Range Brown Eggs (12pk) | Dairy | 5.10 | 0 | https://images.unsplash.com/photo-1582722872445-44dc5f7e3c8f?auto=format&fit=crop&w=600&q=80
+P005 | Organic Ripe Bananas (1kg) | Produce | 1.90 | 30 | https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?auto=format&fit=crop&w=600&q=80
+P006 | Roasted Espresso Coffee Beans | Beverages | 9.75 | 14 | https://images.unsplash.com/photo-1559056199-641a0ac8b55e?auto=format&fit=crop&w=600&q=80
+P007 | Extra Virgin Olive Oil (500ml) | Pantry | 11.50 | 0 | https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?auto=format&fit=crop&w=600&q=80
+P008 | Creamy Greek Yogurt Cup | Dairy | 2.10 | 0 | https://images.unsplash.com/photo-1488477181946-6428a0291777?auto=format&fit=crop&w=600&q=80
+P009 | Fresh Orange Juice (1L) | Beverages | 3.40 | 16 | https://images.unsplash.com/photo-1621506289937-a8e4df240d0b?auto=format&fit=crop&w=600&q=80
+P010 | Dark Chocolate Bar (70%) | Snacks | 3.25 | 22 | https://images.unsplash.com/photo-1511381939415-e44015466834?auto=format&fit=crop&w=600&q=80

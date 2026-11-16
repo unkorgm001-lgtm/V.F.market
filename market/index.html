@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BlueMart // Python Local Server & RBAC</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- LOGIN VIEW -->
+  <div id="loginView" class="login-screen">
+    <div class="login-box">
+      <span class="tag">ORG | UNK // BLUEMART SERVER</span>
+      <h1>Welcome Back</h1>
+      <p>Sign in to shop or manage the live .txt database.</p>
+
+      <div id="loginAlert" class="alert-box"></div>
+
+      <label>Username</label>
+      <input type="text" id="loginUser" placeholder="e.g. orgunk or customer" />
+
+      <label>Password</label>
+      <input type="password" id="loginPass" placeholder="Enter password" onkeydown="if(event.key==='Enter') login()" />
+
+      <button class="btn btn-primary" onclick="login()">Sign In</button>
+
+      <div class="demo-list">
+        <strong>Tap to Quick-Fill Account:</strong>
+        <div class="demo-item" onclick="fill('orgunk','orgunk123')">
+          <span><strong>orgunk</strong> (All Permissions)</span>
+          <span style="color:var(--purple)">Owner →</span>
+        </div>
+        <div class="demo-item" onclick="fill('admin','admin123')">
+          <span><strong>admin</strong> (Read & Edit)</span>
+          <span style="color:var(--sky)">Admin →</span>
+        </div>
+        <div class="demo-item" onclick="fill('staff','staff123')">
+          <span><strong>staff</strong> (Employment Read-Only)</span>
+          <span style="color:var(--amber)">Staff →</span>
+        </div>
+        <div class="demo-item" onclick="fill('customer','buy123')">
+          <span><strong>customer</strong> (Buy Only)</span>
+          <span style="color:var(--teal)">Shop →</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- APP VIEW -->
+  <div id="appView" style="display:none;">
+    <header class="topbar">
+      <div style="display:flex; align-items:center; gap:10px;">
+        <div class="brand">Blue<span>Mart</span></div>
+        <span id="roleBadge" class="badge"></span>
+      </div>
+      <div style="display:flex; align-items:center; gap:10px;">
+        <span id="userLabel" style="font-size:0.85rem; color:var(--muted);"></span>
+        <button class="btn btn-ghost" style="padding:7px 12px;" onclick="logout()">Logout</button>
+      </div>
+    </header>
+
+    <div class="wrap">
+      <div class="status-strip">
+        <span id="permBanner">Connected to Python Local Server</span>
+        <span id="emailBanner" style="color:var(--teal);">Alerts: mohammedabdelnasser707@gmail.com</span>
+      </div>
+
+      <!-- DESKTOP TABS (Hidden for customer buy-only) -->
+      <div class="desktop-tabs" id="desktopTabs">
+        <button class="tab-btn active" data-tab="shopTab" onclick="openTab('shopTab')">🛒 Storefront</button>
+        <button class="tab-btn" data-tab="productsTab" onclick="openTab('productsTab')">📦 Products DB</button>
+        <button class="tab-btn" data-tab="salesTab" onclick="openTab('salesTab')">🧾 Sales Log</button>
+        <button class="tab-btn" id="usersTabBtn" data-tab="usersTab" onclick="openTab('usersTab')">🔐 Users (orgunk)</button>
+      </div>
+
+      <!-- TAB 1: STOREFRONT -->
+      <div id="shopTab" class="tab-section">
+        <div class="shop-layout">
+          <div class="panel">
+            <div class="panel-head">
+              <h3>Daily Products</h3>
+              <input type="text" id="shopSearch" style="max-width:240px; margin:0;" placeholder="Search milk, chips..." oninput="renderShop()" />
+            </div>
+            <div class="prod-grid" id="shopGrid"></div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-head">
+              <h3>🛍️ Your Basket</h3>
+              <button class="btn btn-ghost" style="padding:6px 10px;" onclick="clearCart()">Clear</button>
+            </div>
+            <table>
+              <thead><tr><th>Item</th><th>Qty</th><th>Total</th><th></th></tr></thead>
+              <tbody id="cartBody"></tbody>
+            </table>
+            <div style="display:flex; justify-content:space-between; font-size:1.15rem; font-weight:800; margin:16px 0; padding-top:12px; border-top:1px solid var(--border);">
+              <span>Total</span>
+              <span id="cartTotal" style="color:var(--teal);">$0.00</span>
+            </div>
+            <button class="btn btn-primary" onclick="checkout()">Complete Purchase</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 2: PRODUCTS DB -->
+      <div id="productsTab" class="tab-section" style="display:none;">
+        <div class="panel" id="addProdCard">
+          <div class="panel-head">
+            <h3>➕ Add New Product to products.txt</h3>
+            <button class="btn btn-ghost" style="padding:6px 12px;" onclick="sendEmailAlert('RESTOCK TEST', {id:'TEST', name:'Sample Product', stock:20})">📧 Test Restock Email</button>
+          </div>
+          <div class="row-2">
+            <input type="text" id="newId" placeholder="ID (e.g. P011)" />
+            <input type="text" id="newName" placeholder="Product Name" />
+          </div>
+          <div class="row-2">
+            <input type="text" id="newCat" placeholder="Category (Dairy, Snacks...)" />
+            <input type="number" step="0.01" id="newPrice" placeholder="Price ($)" />
+          </div>
+          <div class="row-2">
+            <input type="number" id="newStock" placeholder="Stock Quantity" />
+            <input type="text" id="newImg" placeholder="Photo URL (optional)" />
+          </div>
+          <button class="btn btn-sky" onclick="saveNewProduct()">Save to products.txt</button>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">
+            <h3>Inventory Database (Mobile & Desktop Editor)</h3>
+            <span id="dbModeNote" style="color:var(--muted); font-size:0.85rem;"></span>
+          </div>
+          <div class="edit-grid" id="dbEditGrid"></div>
+        </div>
+      </div>
+
+      <!-- TAB 3: SALES LOG -->
+      <div id="salesTab" class="tab-section" style="display:none;">
+        <div class="panel">
+          <div class="panel-head">
+            <h3>Sales & Dates Ledger (sales.txt)</h3>
+            <div style="display:flex; gap:10px; align-items:center;">
+              <strong id="revTotal" style="color:var(--teal);"></strong>
+              <button class="btn btn-danger" id="wipeSalesBtn" onclick="clearSales()">Wipe Log</button>
+            </div>
+          </div>
+          <div style="overflow-x:auto;">
+            <table>
+              <thead>
+                <tr><th>Sale ID</th><th>Date & Time</th><th>Buyer</th><th>Product</th><th>Qty</th><th>Total</th></tr>
+              </thead>
+              <tbody id="salesBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 4: USERS (ORGUNK ONLY) -->
+      <div id="usersTab" class="tab-section" style="display:none;">
+        <div class="panel">
+          <div class="panel-head">
+            <h3>User Accounts & Permissions (users.txt)</h3>
+          </div>
+          <div class="row-2">
+            <input type="text" id="uName" placeholder="New Username" />
+            <input type="text" id="uPass" placeholder="Password" />
+          </div>
+          <select id="uRole">
+            <option value="customer">customer (Buy Only)</option>
+            <option value="employment">employment (Read Only)</option>
+            <option value="admin">admin (Read & Edit)</option>
+            <option value="orgunk">orgunk (All Permissions)</option>
+          </select>
+          <button class="btn btn-sky" onclick="addUser()">Create User</button>
+
+          <div style="overflow-x:auto; margin-top:16px;">
+            <table>
+              <thead><tr><th>Username</th><th>Password</th><th>Role</th><th>Action</th></tr></thead>
+              <tbody id="usersBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MOBILE BOTTOM BAR -->
+    <nav class="bottom-nav" id="mobileNav">
+      <button class="bnav-btn active" data-tab="shopTab" onclick="openTab('shopTab')">🛒<span>Shop</span></button>
+      <button class="bnav-btn" data-tab="productsTab" onclick="openTab('productsTab')">📦<span>Products</span></button>
+      <button class="bnav-btn" data-tab="salesTab" onclick="openTab('salesTab')">🧾<span>Sales</span></button>
+      <button class="bnav-btn" id="mUsersBtn" data-tab="usersTab" onclick="openTab('usersTab')">🔐<span>Users</span></button>
+    </nav>
+
+    <footer>CREATED BY <strong>ORG | UNK</strong> • BLUEMART LOCAL PYTHON DATABASE</footer>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
